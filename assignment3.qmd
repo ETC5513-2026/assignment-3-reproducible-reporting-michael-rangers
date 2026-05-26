@@ -1,0 +1,27 @@
+---
+title: "Assignment 3: GST & Pricing in the Indian Motorcycle Market (2020-25)"
+author: "Vrunda Patil, Vaishnav Nayak, Sin Chan, Chenghuiyu Fan"
+date: today
+format:
+  pdf:
+    toc: true
+    number-sections: true
+    fig-pos: "H"
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+```{r}
+#| label: setup
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(renv)
+```
+
+```{r}
+bikes <- read_csv("indian_bikes_dataset_1000.csv")
+```
+
