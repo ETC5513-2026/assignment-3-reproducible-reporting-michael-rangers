@@ -25,3 +25,31 @@ library(renv)
 bikes <- read_csv("indian_bikes_dataset_1000.csv")
 ```
 
+## Methodology
+
+This analysis uses a dataset of 1,000 Indian motorcycles spanning eight major brands across three market segments from 2020 to 2025. The dataset contains 18 variables including engine displacement (cc), mileage (kmpl), factory price, GST rate, GST amount, ex-showroom price, on-road price, and buyer behaviour indicators.
+
+Descriptive statistics were computed to summarise key metrics by market segment. Pricing variables were analysed to measure the GST burden across segments. Buyer behaviour categories and price sensitivity levels were used as proxies for consumer response to pricing changes. All analysis was conducted in R using the tidyverse and kableExtra packages. As shown in @tbl-segment, the three market segments differ substantially in price and GST burden.
+
+```{r}
+#| label: tbl-segment
+#| tbl-cap: "Summary of key metrics by motorcycle market segment"
+
+bikes |>
+  group_by(segment) |>
+  summarise(
+    `No. of Models`      = n(),
+    `Avg Engine (cc)`    = round(mean(cc), 1),
+    `Avg Mileage (kmpl)` = round(mean(mileage_kmpl), 1),
+    `Avg On-Road (INR)`  = round(mean(on_road_price_inr), 0),
+    `Avg GST (INR)`      = round(mean(gst_amount_inr), 0),
+    `Avg Score`          = round(mean(overall_score), 1)
+  ) |>
+  rename(Segment = segment) |>
+  kable(format.args = list(big.mark = ",")) |>
+  kable_styling(
+    bootstrap_options = "striped",
+    full_width = FALSE,
+    position = "center"
+  )
+```
