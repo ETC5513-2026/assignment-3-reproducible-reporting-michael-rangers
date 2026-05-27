@@ -22,7 +22,7 @@ library(renv)
 ```
 
 ```{r}
-bikes <- read_csv("indian_bikes_dataset_1000.csv")
+bikes <- read_csv("data/indian_bikes_dataset_1000.csv")
 ```
 
 ## Methodology
@@ -30,6 +30,8 @@ bikes <- read_csv("indian_bikes_dataset_1000.csv")
 This analysis uses a dataset of 1,000 Indian motorcycles spanning eight major brands across three market segments from 2020 to 2025. The dataset contains 18 variables including engine displacement (cc), mileage (kmpl), factory price, GST rate, GST amount, ex-showroom price, on-road price, and buyer behaviour indicators.
 
 Descriptive statistics were computed to summarise key metrics by market segment. Pricing variables were analysed to measure the GST burden across segments. Buyer behaviour categories and price sensitivity levels were used as proxies for consumer response to pricing changes. All analysis was conducted in R using the tidyverse and kableExtra packages. As shown in @tbl-segment, the three market segments differ substantially in price and GST burden.
+
+
 
 ```{r}
 #| label: tbl-segment
@@ -52,4 +54,43 @@ bikes |>
     full_width = FALSE,
     position = "center"
   )
+
+
+
+
 ```
+```{r}
+#  Figure 1
+fig1_data <- df %>%
+  group_by(segment) %>%
+  summarise(
+    Factory_Price = mean(factory_price_inr),
+    GST_Amount    = mean(gst_amount_inr),
+    On_Road_Price = mean(on_road_price_inr),
+    Other_Charges = On_Road_Price - (Factory_Price + GST_Amount),
+    .groups = 'drop'
+  ) %>%
+  pivot_longer(
+    cols = c(Factory_Price, GST_Amount, Other_Charges),
+    names_to = "Component", values_to = "Amount"
+  ) %>%
+  mutate(Component = factor(Component, levels = c("Other_Charges", "GST_Amount", "Factory_Price")))
+
+# Plot and directly render Figure 1
+fig1 <- ggplot(fig1_data, aes(x = segment, y = Amount, fill = Component)) +
+  geom_bar(stat = "identity", position = "stack", width = 0.5) +
+  scale_fill_brewer(palette = "Set2", labels = c("Other Charges", "GST Amount", "Factory Price")) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(
+    title = "Figure 1: Average Price Component Breakdown by Market Segment",
+    x = "Market Segment", y = "Price in INR (₹)", fill = "Component"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(plot.title = element_text(face = "bold", hjust = 0.5), legend.position = "bottom")
+
+print(fig1)
+
+
+
+```
+
