@@ -31,8 +31,6 @@ This analysis uses a dataset of 1,000 Indian motorcycles spanning eight major br
 
 Descriptive statistics were computed to summarise key metrics by market segment. Pricing variables were analysed to measure the GST burden across segments. Buyer behaviour categories and price sensitivity levels were used as proxies for consumer response to pricing changes. All analysis was conducted in R using the tidyverse and kableExtra packages. As shown in @tbl-segment, the three market segments differ substantially in price and GST burden.
 
-
-
 ```{r}
 #| label: tbl-segment
 #| tbl-cap: "Summary of key metrics by motorcycle market segment"
@@ -59,6 +57,7 @@ bikes |>
 
 
 ```
+
 ```{r}
 #  Figure 1
 fig1_data <- df %>%
@@ -94,3 +93,8 @@ print(fig1)
 
 ```
 
+## Result
+
+As shown in `@tbl-segment`, the three market segments differ substantially in engine size, mileage, and cost. Budget models have a mean engine displacement of 112.9 and achieve the highest average mileage at 63.0 kmpl. In contrast, premium models feature larger engines averaging 376.4 but deliver a lower average mileage of 27.9 kmpl.
+
+The financial data highlights how taxation impacts final pricing. As illustrated in `@fig-price-breakdown`, the total cost scales across segments. The average Goods and Services Tax (GST) amount rises from INR 18,032 for budget motorcycles to INR 62,207 for premium motorcycles. This tax burden directly raises the average on-road price from INR 97,444 in the budget segment to INR 315,860 in the premium segment .
