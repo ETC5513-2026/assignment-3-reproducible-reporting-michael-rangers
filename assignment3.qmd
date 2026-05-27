@@ -11,6 +11,7 @@ execute:
   echo: false
   warning: false
   message: false
+bibliography: references.bib
 ---
 
 ```{r}
@@ -52,15 +53,11 @@ bikes |>
     full_width = FALSE,
     position = "center"
   )
-
-
-
-
 ```
-
 ```{r}
-#  Figure 1
-fig1_data <- df %>%
+#| label: fig-price-breakdown
+#| fig-cap: "Average price component breakdown by market segment."
+fig1_data <- bikes %>%
   group_by(segment) %>%
   summarise(
     Factory_Price = mean(factory_price_inr),
@@ -88,13 +85,54 @@ fig1 <- ggplot(fig1_data, aes(x = segment, y = Amount, fill = Component)) +
   theme(plot.title = element_text(face = "bold", hjust = 0.5), legend.position = "bottom")
 
 print(fig1)
-
-
-
 ```
 
 ## Result
 
-As shown in `@tbl-segment`, the three market segments differ substantially in engine size, mileage, and cost. Budget models have a mean engine displacement of 112.9 and achieve the highest average mileage at 63.0 kmpl. In contrast, premium models feature larger engines averaging 376.4 but deliver a lower average mileage of 27.9 kmpl.
+As shown in @tbl-segment, the three market segments differ substantially in engine size, mileage, dremium models feature larger engines averaging 376.4 but deliver a lower average mileage of 27.9 kmpl.
 
-The financial data highlights how taxation impacts final pricing. As illustrated in `@fig-price-breakdown`, the total cost scales across segments. The average Goods and Services Tax (GST) amount rises from INR 18,032 for budget motorcycles to INR 62,207 for premium motorcycles. This tax burden directly raises the average on-road price from INR 97,444 in the budget segment to INR 315,860 in the premium segment .
+The financial data highlights how taxation impacts final pricing. As illustrated in @fig-price-breakdown, the total cost scales across segments. The average Goods and Services Tax (GST) amount rises from INR 18,032 for budget motorcycles to INR 62,207 for premium motorcycles. This tax burden directly raises the average on-road price from INR 97,444 in the budget segment to INR 315,860 in the premium segment .
+
+```{r}
+#| label: fig-gst-sensitivity
+#| fig-cap: "Distribution of GST amount paid by price sensitivity level and market segment."
+bikes |>
+  mutate(price_sensitivity = factor(price_sensitivity)) |>
+  ggplot(aes(x = price_sensitivity,
+             y = gst_amount_inr,
+             fill = segment)) +
+  geom_boxplot(alpha = 0.7) +
+  scale_fill_manual(
+    values = c(
+      "budget"  = "#2c7bb6",
+      "mid"     = "#f39c12",
+      "premium" = "#c0392b"
+    ),
+    labels = c("Budget", "Mid", "Premium")
+  ) +
+  labs(
+    x    = "Price Sensitivity Level",
+    y    = "GST Amount (INR)",
+    fill = "Market Segment"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(legend.position = "bottom")
+```
+
+@fig-gst-sensitivity shows that the GST burden within each market segment remains consistent across all four price sensitivity levels. Regardless of whether a consumer reports low, medium, high, or very high price sensitivity, the absolute GST amount they pay is determined entirely by their market segment rather than their sensitivity level. Premium-segment buyers pay approximately 50,000 to 80,000 INR in GST across all sensitivity groups, while budget-segment buyers consistently pay 15,000 to 20,000 INR. This confirms that the structural impact of the uniform 28% GST rate is segment-driven: budget consumers, who are most constrained by price increases, receive no tax relief despite their lower purchasing capacity.
+
+## Discussion, Conclusion and Recommendations
+### Discussion
+@tbl-segment shows that the three market segments differ substantially in both technical specifications and GST burden. Premium models carry larger engines and higher on-road prices, with an average GST amount exceeding three times that of budget-segment motorcycles, despite all segments facing the same 28% statutory rate.
+
+@fig-gst-sensitivity deepens this finding. The GST burden within each segment remains consistent across all four price sensitivity levels, confirming that a consumer's tax burden is determined entirely by market segment rather than by individual price sensitivity. Budget-segment buyers, despite reporting higher price sensitivity, receive no reduction in their GST obligation. Mukherjee [@mukherjee2024] demonstrates that India's GST system places a disproportionate relative burden on lower-expenditure households, a pattern clearly reflected here: budget buyers pay less in absolute rupees but bear a heavier relative cost given their lower purchasing capacity[@ali2021].
+
+This structural asymmetry directly shapes brand competitiveness. Brands concentrated in the budget segment face consumers who are price-constrained and cannot benefit from the current flat-rate tax structure, limiting those brands' pricing flexibility. Premium brands, by contrast, operate in a segment where the same proportional tax produces far less behavioural pressure on buyers.
+
+### Conclusion
+The uniform 28% GST rate imposes structurally unequal absolute tax burdens across Indian motorcycle market segments. Budget-segment buyers pay the least GST in rupees yet experience the greatest relative pressure, while premium-segment buyers absorb far higher amounts with considerably less behavioural disruption. @fig-gst-sensitivity confirms that this burden is determined by segment alone and does not adjust to consumer purchasing capacity. A single statutory rate therefore produces asymmetric competitive pressure across the market.
+
+### Recommendations
+Budget-segment manufacturers should treat any price increase as a last resort and accompany it with tangible improvements in product features or after-sales service so that consumers perceive added value rather than a simple cost transfer. Premium-segment manufacturers can absorb or pass on GST-related cost increases with less risk of volume loss, but should monitor price sensitivity data regularly to detect early shifts in buyer behaviour. Policymakers may consider whether differentiated GST rates across segments could reduce the disproportionate relative burden on budget buyers without significantly disrupting premium market dynamics [@mukherjee2024].
+
+## References
