@@ -59,7 +59,12 @@ bikes |>
 ```
 
 ```{r}
-#  Figure 1
+#| label: fig-price-breakdown
+#| fig-cap: "Average price component breakdown by market segment"
+#| warning: false
+#| message: false
+
+# 1. Data Preparation
 fig1_data <- df %>%
   group_by(segment) %>%
   summarise(
@@ -75,21 +80,23 @@ fig1_data <- df %>%
   ) %>%
   mutate(Component = factor(Component, levels = c("Other_Charges", "GST_Amount", "Factory_Price")))
 
-# Plot and directly render Figure 1
+# 2. Plot Generation 
 fig1 <- ggplot(fig1_data, aes(x = segment, y = Amount, fill = Component)) +
   geom_bar(stat = "identity", position = "stack", width = 0.5) +
   scale_fill_brewer(palette = "Set2", labels = c("Other Charges", "GST Amount", "Factory Price")) +
   scale_y_continuous(labels = scales::comma) +
   labs(
-    title = "Figure 1: Average Price Component Breakdown by Market Segment",
-    x = "Market Segment", y = "Price in INR (₹)", fill = "Component"
+    x = "Market Segment", 
+    y = "Price in INR (₹)", 
+    fill = "Component"
   ) +
   theme_minimal(base_size = 12) +
-  theme(plot.title = element_text(face = "bold", hjust = 0.5), legend.position = "bottom")
+  theme(
+    legend.position = "bottom"
+  )
 
+# 3. Render
 print(fig1)
-
-
 
 ```
 
@@ -97,4 +104,4 @@ print(fig1)
 
 As shown in `@tbl-segment`, the three market segments differ substantially in engine size, mileage, and cost. Budget models have a mean engine displacement of 112.9 and achieve the highest average mileage at 63.0 kmpl. In contrast, premium models feature larger engines averaging 376.4 but deliver a lower average mileage of 27.9 kmpl.
 
-The financial data highlights how taxation impacts final pricing. As illustrated in `@fig-price-breakdown`, the total cost scales across segments. The average Goods and Services Tax (GST) amount rises from INR 18,032 for budget motorcycles to INR 62,207 for premium motorcycles. This tax burden directly raises the average on-road price from INR 97,444 in the budget segment to INR 315,860 in the premium segment .
+The financial data highlights how taxation impacts final pricing. As illustrated in `@fig-price-breakdown`ndefined, the total cost scales across segments. The average Goods and Services Tax (GST) amount rises from INR 18,032 for budget motorcycles to INR 62,207 for premium motorcycles. This tax burden directly raises the average on-road price from INR 97,444 in the budget segment to INR 315,860 in the premium segment.
