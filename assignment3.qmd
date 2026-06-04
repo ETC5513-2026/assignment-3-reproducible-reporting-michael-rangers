@@ -25,7 +25,6 @@ library(renv)
 bikes <- read_csv("indian_bikes_dataset_1000.csv")
 ```
 
-<<<<<<< HEAD
 
 ## Executive Summary
 
