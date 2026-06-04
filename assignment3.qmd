@@ -25,3 +25,13 @@ library(renv)
 bikes <- read_csv("indian_bikes_dataset_1000.csv")
 ```
 
+
+## Executive Summary
+
+India's two-wheeler market is one of the fastest-growing vehicle segments globally, with pricing and tax policy playing a central role in consumer accessibility. This report analyses bike prices and Goods and Services Tax (GST) across segments in India from 2020 to 2025 using a publicly available dataset of Indian bike models. Key findings reveal significant price variation across segments, with the premium category recording the highest average prices and GST contributions over the study period. This report recommends targeted GST relief for commuter-segment bikes to improve affordability for lower-income riders.
+
+## Introduction
+
+India is the world's largest two-wheeler market by volume, with millions of units sold annually, making it a critical segment of the broader automotive industry [@bikes2025]. The two-wheeler segment serves as the primary mode of transport for middle and lower-income households across both urban and rural areas of India. Since the introduction of the Goods and Services Tax (GST) in 2017, tax rates on two-wheelers have varied by engine capacity, directly influencing retail pricing and consumer purchasing decisions. The period from 2020 to 2025 saw significant market disruption due to the COVID-19 pandemic, global supply chain shortages, and a gradual shift toward electric vehicles. These factors collectively drove price increases across most bike segments, making affordability a growing concern for everyday commuters. This report investigates how ex-showroom prices and GST contributions have evolved across different bike segments in India over this five-year period. The dataset used, sourced from Kaggle, contains pricing and tax data for a range of Indian bike models spanning 2020 to 2025 [@bikes2025]. The analysis focuses on segment-wise price trends, GST burden distribution, and year-on-year price comparisons. Understanding these dynamics is relevant to consumers, manufacturers, and policymakers seeking to balance industry growth with consumer affordability. The following sections outline the methodology, present key findings, and provide recommendations based on the analysis.
+
+
