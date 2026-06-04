@@ -25,6 +25,7 @@ library(renv)
 bikes <- read_csv("indian_bikes_dataset_1000.csv")
 ```
 
+<<<<<<< HEAD
 
 ## Executive Summary
 
@@ -34,4 +35,33 @@ India's two-wheeler market is one of the fastest-growing vehicle segments global
 
 India is the world's largest two-wheeler market by volume, with millions of units sold annually, making it a critical segment of the broader automotive industry [@bikes2025]. The two-wheeler segment serves as the primary mode of transport for middle and lower-income households across both urban and rural areas of India. Since the introduction of the Goods and Services Tax (GST) in 2017, tax rates on two-wheelers have varied by engine capacity, directly influencing retail pricing and consumer purchasing decisions. The period from 2020 to 2025 saw significant market disruption due to the COVID-19 pandemic, global supply chain shortages, and a gradual shift toward electric vehicles. These factors collectively drove price increases across most bike segments, making affordability a growing concern for everyday commuters. This report investigates how ex-showroom prices and GST contributions have evolved across different bike segments in India over this five-year period. The dataset used, sourced from Kaggle, contains pricing and tax data for a range of Indian bike models spanning 2020 to 2025 [@bikes2025]. The analysis focuses on segment-wise price trends, GST burden distribution, and year-on-year price comparisons. Understanding these dynamics is relevant to consumers, manufacturers, and policymakers seeking to balance industry growth with consumer affordability. The following sections outline the methodology, present key findings, and provide recommendations based on the analysis.
 
+
+## Methodology
+
+This analysis uses a dataset of 1,000 Indian motorcycles spanning eight major brands across three market segments from 2020 to 2025. The dataset contains 18 variables including engine displacement (cc), mileage (kmpl), factory price, GST rate, GST amount, ex-showroom price, on-road price, and buyer behaviour indicators.
+
+Descriptive statistics were computed to summarise key metrics by market segment. Pricing variables were analysed to measure the GST burden across segments. Buyer behaviour categories and price sensitivity levels were used as proxies for consumer response to pricing changes. All analysis was conducted in R using the tidyverse and kableExtra packages. As shown in @tbl-segment, the three market segments differ substantially in price and GST burden.
+
+```{r}
+#| label: tbl-segment
+#| tbl-cap: "Summary of key metrics by motorcycle market segment"
+
+bikes |>
+  group_by(segment) |>
+  summarise(
+    `No. of Models`      = n(),
+    `Avg Engine (cc)`    = round(mean(cc), 1),
+    `Avg Mileage (kmpl)` = round(mean(mileage_kmpl), 1),
+    `Avg On-Road (INR)`  = round(mean(on_road_price_inr), 0),
+    `Avg GST (INR)`      = round(mean(gst_amount_inr), 0),
+    `Avg Score`          = round(mean(overall_score), 1)
+  ) |>
+  rename(Segment = segment) |>
+  kable(format.args = list(big.mark = ",")) |>
+  kable_styling(
+    bootstrap_options = "striped",
+    full_width = FALSE,
+    position = "center"
+  )
+```
 
