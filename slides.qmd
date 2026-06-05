@@ -1,0 +1,173 @@
+---
+title: "GST & Pricing in the Indian Motorcycle Market"
+subtitle: "2020–2025"
+author: "Vrunda Patil, Vaishnav Nayak, Sin Chan, Chenghuiyu Fan"
+date: today
+format:
+  revealjs:
+    theme: simple
+    slide-number: true
+    transition: slide
+    footer: "ETC5513 Assignment 3 — Michael Rangers"
+execute:
+  echo: false
+  warning: false
+  message: false
+bibliography: references.bib
+---
+
+```{r}
+#| label: setup
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+bikes <- read_csv("data/indian_bikes_dataset_1000.csv")
+```
+
+## Why does this matter?
+
+Every time someone in India buys a motorcycle, they pay **28% GST on top of the price** — no exceptions.
+
+But not everyone feels that equally.
+
+This report asks: **who really bears the burden?**
+
+## The Indian Motorcycle Market
+
+India sells **millions of two-wheelers every year** — it is the largest market in the world.
+
+Three very different types of buyers exist:
+
+| Segment    | Who buys it                            |
+|------------|----------------------------------------|
+|  Budget    | Daily commuters, low-income households |
+|  Mid-range | Middle-income urban buyers             |
+|  Premium   | Enthusiasts, higher-income buyers      |
+
+All three pay the **same 28% GST rate.**
+
+## Our Dataset
+
+We used a publicly available dataset from Kaggle covering **1,000 Indian motorcycles** from **2020 to 2025.**
+
+- **8 brands** — Honda, Bajaj, Hero, Royal Enfield, TVS, Yamaha, KTM, Suzuki
+- **18 variables** — prices, GST, engine size, mileage, buyer behavior and price sensitivity
+- **Clean data** — ready to analyse in R
+
+A five-year window that includes COVID-19 disruption, supply chain shortages and rising prices.
+
+## How we analysed it
+
+We kept it straightforward:
+
+-   Grouped all 1,000 bikes by **budget, mid and premium** segment
+-   Calculated average prices, GST amounts and engine specs
+-   Looked at whether **price sensitivity changes the GST burden**
+-   Built everything in **R** using `tidyverse` and `kableExtra`
+-   The full report and these slides are both **reproducible from the same GitHub repository**
+
+```{r}
+#| label: tbl-methods
+#| tbl-cap: "What each segment looks like on average"
+bikes |>
+  group_by(segment) |>
+  summarise(
+    `Models` = n(),
+    `Avg Engine (cc)`  = round(mean(cc), 1),
+    `Avg On-Road (INR)` = round(mean(on_road_price_inr), 0),
+    `Avg GST (INR)` = round(mean(gst_amount_inr), 0)
+  ) |>
+  rename(Segment = segment) |>
+  kable(format.args = list(big.mark = ",")) |>
+  kable_styling(font_size = 22, full_width = FALSE)
+```
+
+## What the numbers show
+
+The price gap between segments is enormous — and GST makes it bigger.
+
+```{r}
+#| label: fig-price
+#| fig-width: 9
+#| fig-height: 4.5
+bikes %>%
+  group_by(segment) %>%
+  summarise(
+    Factory_Price = mean(factory_price_inr),
+    GST_Amount = mean(gst_amount_inr),
+    On_Road_Price = mean(on_road_price_inr),
+    Other_Charges = On_Road_Price - (Factory_Price + GST_Amount),
+    .groups = "drop"
+  ) %>%
+  
+  pivot_longer(
+    cols = c(Factory_Price, GST_Amount, Other_Charges),
+    names_to = "Component", values_to = "Amount"
+  ) %>%
+  
+  mutate(Component = factor(Component,
+    levels = c("Other_Charges", "GST_Amount", "Factory_Price"))) %>%
+  
+  ggplot(aes(x = segment, y = Amount, fill = Component)) +
+  geom_bar(stat = "identity", position = "stack", width = 0.5) +
+  scale_fill_brewer(palette = "Set2",
+    labels = c("Other Charges", "GST Amount", "Factory Price")) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(x = "Market Segment", y = "Price (INR)", fill = "Component") +
+  theme_minimal(base_size = 16) +
+  theme(legend.position = "bottom")
+```
+
+Budget buyers pay **INR 18,032** in GST. Premium buyers pay **INR 62,207** — more than three times as much.
+
+## Does being price-sensitive help?
+
+You might expect that buyers who are more price-sensitive pay less somehow. They do not.
+
+```{r}
+#| label: fig-sensitivity
+#| fig-width: 9
+#| fig-height: 4.2
+bikes |>
+  mutate(price_sensitivity = factor(price_sensitivity)) |>
+  ggplot(aes(x = price_sensitivity,
+             y = gst_amount_inr,
+             fill = segment)) +
+  geom_boxplot(alpha = 0.7) +
+  scale_fill_manual(
+    values = c("budget"= "#2c7bb6",
+               "mid"= "#f39c12",
+               "premium" = "#c0392b"),
+    labels = c("Budget", "Mid", "Premium")
+  ) +
+  labs(x = "Price Sensitivity Level",
+       y = "GST Amount (INR)",
+       fill = "Market Segment") +
+  theme_minimal(base_size = 16) +
+  theme(legend.position = "bottom")
+```
+
+The boxes are flat across all sensitivity levels. **Your GST is decided by your segment — nothing else.**
+
+## What this means in practice
+
+::: incremental
+-   A budget buyer earning less pays **INR 18,032** in tax
+-   A premium buyer earning more pays **INR 62,207** in tax
+-   Both face the **exact same 28% rate**
+-   The budget buyer feels it **much more** relative to their income
+-   The flat rate creates **structurally unequal pressure** across the whole market
+:::
+
+## What should change?
+
+**For manufacturers:** Budget brands should avoid passing costs to buyers — add value through features or service instead.
+
+**For premium brands:** Keep watching price sensitivity data — it can shift quickly.
+
+**For policymakers:** A single 28% rate sounds fair but is not in practice. Differentiated rates by engine capacity could reduce the burden on everyday commuters without disrupting the premium market.
+
+## References {.smaller}
+
+::: {#refs}
+:::
