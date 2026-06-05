@@ -19,7 +19,7 @@ bibliography: references.bib
 library(tidyverse)
 library(knitr)
 library(kableExtra)
-library(renv)
+
 ```
 
 ```{r}
@@ -64,7 +64,7 @@ bikes |>
     position = "center"
   )
 ```
-<<<<<<< HEAD
+
 
 
 ```{r}
@@ -108,8 +108,8 @@ fig1 <- ggplot(fig1_data, aes(x = segment, y = Amount, fill = Component)) +
 print(fig1)
 ```
 
-## Result
-As shown in @tbl-segment, the three market segments differ substantially in engine size, mileage, dremium models feature larger engines averaging 376.4 but deliver a lower average mileage of 27.9 kmpl.
+## Results
+As shown in @tbl-segment, the three market segments differ substantially in engine size, mileage, premium models feature larger engines averaging 376.4 but deliver a lower average mileage of 27.9 kmpl.
 
 The financial data highlights how taxation impacts final pricing. As illustrated in @fig-price-breakdown, the total cost scales across segments. The average Goods and Services Tax (GST) amount rises from INR 18,032 for budget motorcycles to INR 62,207 for premium motorcycles. This tax burden directly raises the average on-road price from INR 97,444 in the budget segment to INR 315,860 in the premium segment .
 
@@ -156,4 +156,4 @@ The uniform 28% GST rate imposes structurally unequal absolute tax burdens acros
 Budget-segment manufacturers should treat any price increase as a last resort and accompany it with tangible improvements in product features or after-sales service so that consumers perceive added value rather than a simple cost transfer. Premium-segment manufacturers can absorb or pass on GST-related cost increases with less risk of volume loss, but should monitor price sensitivity data regularly to detect early shifts in buyer behaviour. Policymakers may consider whether differentiated GST rates across segments could reduce the disproportionate relative burden on budget buyers without significantly disrupting premium market dynamics [@mukherjee2024].
 
 ## References
->>>>>>> Chenghuiyu/discussion
+
