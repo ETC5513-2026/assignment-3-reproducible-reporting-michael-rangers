@@ -22,7 +22,7 @@ library(renv)
 ```
 
 ```{r}
-bikes <- read_csv("indian_bikes_dataset_1000.csv")
+bikes <- read_csv("data/indian_bikes_dataset_1000.csv")
 ```
 
 
@@ -62,5 +62,57 @@ bikes |>
     full_width = FALSE,
     position = "center"
   )
+
+
+
+
 ```
+
+
+```{r}
+#| label: fig-price-breakdown
+#| fig-cap: "Average price component breakdown by market segment"
+#| warning: false
+#| message: false
+
+# 1. Data Preparation
+fig1_data <- bikes %>%
+  group_by(segment) %>%
+  summarise(
+    Factory_Price = mean(factory_price_inr),
+    GST_Amount    = mean(gst_amount_inr),
+    On_Road_Price = mean(on_road_price_inr),
+    Other_Charges = On_Road_Price - (Factory_Price + GST_Amount),
+    .groups = 'drop'
+  ) %>%
+  pivot_longer(
+    cols = c(Factory_Price, GST_Amount, Other_Charges),
+    names_to = "Component", values_to = "Amount"
+  ) %>%
+  mutate(Component = factor(Component, levels = c("Other_Charges", "GST_Amount", "Factory_Price")))
+
+# 2. Plot Generation 
+fig1 <- ggplot(fig1_data, aes(x = segment, y = Amount, fill = Component)) +
+  geom_bar(stat = "identity", position = "stack", width = 0.5) +
+  scale_fill_brewer(palette = "Set2", labels = c("Other Charges", "GST Amount", "Factory Price")) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(
+    x = "Market Segment", 
+    y = "Price in INR (₹)", 
+    fill = "Component"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    legend.position = "bottom"
+  )
+
+# 3. Render
+print(fig1)
+```
+
+## Result
+
+As shown in @tbl-segment, the three market segments differ substantially in engine size, mileage, and cost. Budget models have a mean engine displacement of 112.9 cc and achieve the highest average mileage at 63.0 kmpl. In contrast, premium models feature larger engines averaging 376.4 cc but deliver a lower average mileage of 27.9 kmpl.
+
+The financial data highlights how taxation impacts final consumer pricing. As illustrated in @fig-price-breakdown, the total cost scales significantly across segments. The average Goods and Services Tax (GST) amount rises from INR 18,032 for budget motorcycles to INR 62,207 for premium motorcycles. This substantial tax burden directly increases the ex-showroom cost, which subsequently drives up the final average on-road price from INR 97,444 in the budget segment to INR 315,860 in the premium segment.
 
