@@ -167,7 +167,8 @@ The boxes are flat across all sensitivity levels. **Your GST is decided by your 
 
 **For policymakers:** A single 28% rate sounds fair but is not in practice. Differentiated rates by engine capacity could reduce the burden on everyday commuters without disrupting the premium market.
 
-## References {.smaller}
+## Thank you!
 
-::: {#refs}
-:::
+- **Topic:** GST & Pricing in the Indian Motorcycle Market
+- **Team Members:** Vrunda Patil, Vaishnav Nayak, Sin Chan, Chenghuiyu Fan
+
