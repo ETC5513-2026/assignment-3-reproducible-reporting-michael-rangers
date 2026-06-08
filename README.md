@@ -7,4 +7,4 @@ Group Members:
 * Sin Chan
 * Chenghuiyu Fan
 
-Topic: How does GST and pricing affect Indian motorcycle market segments, buyer behaviour, and brand competitiveness from 2020 to 2025?
+Topic: GST & Pricing in the Indian Motorcycle Market (2020-25)
