@@ -106,8 +106,6 @@ print(fig1)
 
 ## Results
 
-As shown in @tbl-segment, the three market segments differ substantially in engine size, mileage, remium models feature larger engines averaging 376.4 but deliver a lower average mileage of 27.9 kmpl.
-
 As shown in @tbl-segment, the three market segments differ substantially in engine size, mileage, and cost. Budget models have a mean engine displacement of 112.9 cc and achieve the highest average mileage at 63.0 kmpl. In contrast, premium models feature larger engines averaging 376.4 cc but deliver a lower average mileage of 27.9 kmpl.
 
 The financial data highlights how taxation impacts final pricing. As illustrated in @fig-price-breakdown, the total cost scales across segments. The average Goods and Services Tax (GST) amount rises from INR 18,032 for budget motorcycles to INR 62,207 for premium motorcycles. This tax burden directly raises the average on-road price from INR 97,444 in the budget segment to INR 315,860 in the premium segment .
